@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+<style >
+	body{text-align: center}                               
+</style>
+<body>
+<body background="__PUBLIC__/bai1.jpg">                                     
+<meta charset="utf-8"/>                                        
+<table border="1"                                                
+cellpadding="15"                                                  
+cellspacing="2">                                                  
+
+<caption>{$data.studentid}同学的课表</caption>
+<tr>
+	<th></th>
+	<th>一</th>
+	<th>二</th>
+	<th>三</th>
+	<th>四</th>
+	<th>五</th>
+	<th>六</th>
+	<th>七</th>
+</tr>
+<for start="1" end="7" name="i">
+<tr>
+	<th>{$i*2-1}</th>
+	<for start="1" end="8" name="a">
+	<empty name="data[7*$i+$a]">
+	<td rowspan="2" ></td>
+	<else/>
+	<td rowspan="2">
+	<foreach name="data[7*$i+$a]" item="value">
+	<div title="课程详细信息&#10;名称 {$value['lessonname']}&#10;老师 {$value['teacher']}&#10;教室 {$value['classroom']}&#10;类型 {$value['method']}&#10;周数 {$value['weeks']}&#10;{$value['special']}">{$value['lessonname']}</br>（上）</br>@教室 {$value['classroom']}</div>
+	</foreach>
+	</td>
+	</empty>
+	</for>
+</tr>
+<tr>
+	<th>{$i*2}</th>
+</tr>
+</for>
+
+</table>
+</body>
+</html>
