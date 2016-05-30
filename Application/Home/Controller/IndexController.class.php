@@ -7,7 +7,7 @@ class IndexController extends Controller {
     {
     	$id = I('post.id', '','htmlspecialchars');
     	unset($_POST['id']);
-    	$pattern = '/^[2012-2015][0-9]{6}$/';
+    	$pattern = '/^201[2-5][0-9]{6}$/';
     	if(preg_match($pattern,$id)) {
     		$M = M('Lesson');
        		$data = $M->where('studentid='.$id)->select();

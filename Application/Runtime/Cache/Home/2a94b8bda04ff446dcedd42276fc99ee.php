@@ -26,9 +26,9 @@
 	<input type="submit" value="查询" />
 	</form>
 </div>
-<?php $__FOR_START_2192__=1;$__FOR_END_2192__=7;for($i=$__FOR_START_2192__;$i < $__FOR_END_2192__;$i+=1){ ?><tr>
+<?php $__FOR_START_24730__=1;$__FOR_END_24730__=7;for($i=$__FOR_START_24730__;$i < $__FOR_END_24730__;$i+=1){ ?><tr>
 	<th><?php echo ($i*2-1); ?></th>
-	<?php $__FOR_START_13705__=1;$__FOR_END_13705__=8;for($a=$__FOR_START_13705__;$a < $__FOR_END_13705__;$a+=1){ if(empty($data[7*$i+$a])): ?><td rowspan="2" ></td>
+	<?php $__FOR_START_15819__=1;$__FOR_END_15819__=8;for($a=$__FOR_START_15819__;$a < $__FOR_END_15819__;$a+=1){ if(empty($data[7*$i+$a])): ?><td rowspan="2" ></td>
 	<?php else: ?>
 	<td rowspan="2">
 	<?php if(is_array($data[7*$i+$a])): foreach($data[7*$i+$a] as $key=>$value): ?><div title="课程详细信息&#10;名称 <?php echo ($value['lessonname']); ?>&#10;老师 <?php echo ($value['teacher']); ?>&#10;教室 <?php echo ($value['classroom']); ?>&#10;类型 <?php echo ($value['method']); ?>&#10;周数 <?php echo ($value['weeks']); ?>&#10;<?php echo ($value['special']); ?>"><?php echo ($value['lessonname']); ?></br>（上）</br>@教室 <?php echo ($value['classroom']); ?></div><?php endforeach; endif; ?>

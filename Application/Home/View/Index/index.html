@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
 <html>
 <style >
-	body{text-align: center;
-		background: url("__PUBLIC__/bai1.jpg");
+	body{
+		text-align: center;
+		background: url("__PUBLIC__/4.jpg");
 	}                               
 </style>
 <body>                                   
@@ -35,7 +36,13 @@
 	<else/>
 	<td rowspan="2">
 	<foreach name="data[7*$i+$a]" item="value">
-	<div title="课程详细信息&#10;名称 {$value['lessonname']}&#10;老师 {$value['teacher']}&#10;教室 {$value['classroom']}&#10;类型 {$value['method']}&#10;周数 {$value['weeks']}&#10;{$value['special']}">{$value['lessonname']}</br>（上）</br>@教室 {$value['classroom']}</div>
+	<div title="课程详细信息&#10;名称 {$value['lessonname']}&#10;老师 {$value['teacher']}&#10;教室 {$value['classroom']}&#10;类型 {$value['method']}&#10;周数 {$value['weeks']}&#10;{$value['special']}">{$value['lessonname']}</br>（上）</br>
+	@教室 {$value['classroom']} </br>
+	<empty name = "value['special']">
+		<span style="color:blue">
+		{$value['special']}
+		</span>	
+	</empty></div>
 	</foreach>
 	</td>
 	</empty>
