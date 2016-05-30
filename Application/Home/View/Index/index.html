@@ -1,15 +1,13 @@
 <!DOCTYPE HTML>
 <html>
 <style >
-	body{text-align: center}                               
+	body{text-align: center;
+		background: url("__PUBLIC__/bai1.jpg");
+	}                               
 </style>
-<body>
-<body background="__PUBLIC__/bai1.jpg">                                     
+<body>                                   
 <meta charset="utf-8"/>                                        
-<table border="1"                                                
-cellpadding="15"                                                  
-cellspacing="2">                                                  
-
+<table border="1" cellpadding="15" cellspacing="2">
 <caption>{$data.studentid}同学的课表</caption>
 <tr>
 	<th></th>
@@ -21,6 +19,13 @@ cellspacing="2">
 	<th>六</th>
 	<th>七</th>
 </tr>
+<div style="float:right">                                           
+	<form method='post' action="{:U('Home/Index/index')}">
+	学号:
+	<input type="text" name="id"></br>
+	<input type="submit" value="查询" />
+	</form>
+</div>
 <for start="1" end="7" name="i">
 <tr>
 	<th>{$i*2-1}</th>

@@ -21,29 +21,16 @@ class DebugController //extends Controller
 		'/<!--(?s).*?-->/'
 	);
 	private $id;
-	private $n = 1;
+	private $data = array();
 
-	/**
-	 * 根据开始学号和结尾学号进行查询
-	 * @param int $startid 第一个需要查询的学号
-	 * @param int $num     [description]
-	 */
-	public function __construct($startid, $num)
-	{
-		
-		for ($i = 0; $i < $num; $i++) {
-			$id = $startid + $i;
-			$this->runIt($id);
-		}
-	}
-
-	private function runIt($id)
+	public function runIt($id = 2015211703)
 	{
 		$targetUrl = 'http://jwzx.cqupt.edu.cn/pubStuKebiao.php?xh=' . $id;
 		$this->id = $id;
 		$text = $this->runCurl($targetUrl);
 		if($text) 
-			$this->analyze($text); 
+			$this->analyze($text);
+		return $this->data;
 	}
 
 	private function runCurl($url)
@@ -58,11 +45,7 @@ class DebugController //extends Controller
 			//CURLOPT_TIMEOUT			=> 60
 		);
 		curl_setopt_array($curl, $opt);
-		try {
-			$text = curl_exec($curl);		
-		} catch (Exception $e) {
-			return NULL;
-		}
+		$text = curl_exec($curl);		
 		if(!$text){
 			return NULL;
 		}
@@ -73,6 +56,7 @@ class DebugController //extends Controller
 
 	private function analyze($text)
 	{
+		$data;
 		//去注释
 		$text = preg_replace($this->annotation, '', $text);
 		//转码
@@ -80,42 +64,41 @@ class DebugController //extends Controller
 		//把<td>内容单独拿出来
 		preg_match_all($this->pattern['0'], $text, $subject);
 		$lesson = array();
-		$lesson['studentid']  = $this->id;
 		foreach ($subject[0] as $key => $value) {
-			$week = ($key)%7+1;
+			$week = $key%7+1;
 			$time = $key/7;
 			//分析数据
 			$num  = preg_match_all($this->pattern['1'], $value, $message);
 			if ($message['classid']['0']) {
-				//添加数据
-				for($i=0; $i<$num; $i++, $this->n++) {
-					$model 				 = 	M('Lesson');
-					$lesson['lessonid'] = $this->n;
-					$lesson['classid'] 	 = $message['classid'][$i];
-					$lesson['teacher'] 	 = $message['teacher'][$i];
-					$lesson['lessonname'] = $message['lessonname'][$i];
-					$lesson['classroom'] = $message['classroom'][$i];
-					$lesson['method']    = $message['method'][$i];
-					$lesson['weeks'] 	 = $message['weeks'][$i];
-					$lesson['week'] 	 = $message['week'][$i];
-					$lesson['status'] 	 = $message['status'][$i];
-					$lesson['time']  	 = $time;
-					$lesson['week']		 = $week;
-					$lesson['special']	 = $message['special'][$i];
-					try{
-						$model->create($lesson);
-						$model->add();
-					} catch(Exception $e) {
-						continue;
-					}
-					unset($model);
-					sleep(0.1);
-				}
-				
+				$this->addData($message, $num, $week, $time);
 			}
 			
 		}
 
+	}
+
+	private function addData($message, $num, $week, $time)
+	{
+		$model = M('Lesson');
+		$lesson['studentid']  	= $this->id;
+		$lesson['time']  	 	= $time;
+		$lesson['week']		 	= $week;
+		//添加数据
+		for($i=0; $i<$num; $i++) {
+			
+			$lesson['classid'] 	 	= $message['classid'][$i];
+			$lesson['teacher'] 	 	= $message['teacher'][$i];
+			$lesson['lessonname'] 	= $message['lessonname'][$i];
+			$lesson['classroom'] 	= $message['classroom'][$i];
+			$lesson['method']    	= $message['method'][$i];
+			$lesson['weeks'] 	 	= $message['weeks'][$i];
+			$lesson['status'] 	 	= $message['status'][$i];
+			$lesson['special']	 	= $message['special'][$i];
+			$this->data[]			= $lesson;
+			$model->create($lesson);
+			$model->add();
+		}
+			unset($model);
 	}
 }
 

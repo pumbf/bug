@@ -3,26 +3,34 @@ namespace Home\Controller;
 use Think\Controller;
 use Home\Controller\DebugController;
 class IndexController extends Controller {
-    public function index($id = '2015210001'){
-    	try{
-       		$M = M('Lesson');
+    public function index()
+    {
+    	$id = I('post.id', '','htmlspecialchars');
+    	unset($_POST['id']);
+    	$pattern = '/^[2012-2015][0-9]{6}$/';
+    	if(preg_match($pattern,$id)) {
+    		$M = M('Lesson');
        		$data = $M->where('studentid='.$id)->select();
+       		if(!$data) {
+       			$data = $this->getData($id);
+       		}
        		$message;
        		foreach ($data  as $value) {
        			$n = (int)$value['week']+7*(int)$value['time'];
        			$message[$n][] = $value;
        		}
-       		$message['studentid'] = $id;       		
+       		$message['studentid'] = $id;  		
        		$this->assign('data',$message);
-       		$this->display('index');
-       	} catch(Exception $e) {
-       		$this->error('数据为空，获取数据中....',U('Index/getData'));
        	}
-       	
+		$this->display('index');      	
 
     }
-    public function getData(){
-    	echo'获取数据中:)....';
-    	 $Debug = new DebugController('2015210001',100);
+    
+
+    private function getData($id)
+    {
+    	 $Debug = new DebugController();
+    	 $data = $Debug->runIt($id);
+    	 return $data;
     }
 }

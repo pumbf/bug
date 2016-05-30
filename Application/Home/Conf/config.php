@@ -1,10 +1,10 @@
 <?php
 return array(
 	'URL_HTML_SUFFIX'		=> '',
-	'URL_CASE_INSENSITIVE'  => ture,
+	'URL_CASE_INSENSITIVE'  => true,
 	'DEFAULT_FILTER'		=> 'strip_tags,htmlspecialchars,addcslashes',
 	'DB_FIELDS_CACHE'		=> false,
-	'APP_DEBUG' 			=> ture,
+	'APP_DEBUG' 			=> true,
 	'DB_PREFIX'				=> '',
     'db_type'  				=> 'mysql',
     'db_user'  				=> 'root',
