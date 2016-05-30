@@ -8,7 +8,7 @@ class DebugController //extends Controller
 {
 	//匹配信息
 	private $pattern = array(
-		'/<td[^>]*?>.*?<\\/td>/',
+		'/<td[^>]*?>&nbsp;.*?<\\/td>/',
 		'/(?<classid>\\d*)<br>(?<lessonname>.*?)<br>(?<teacher>.*?)<br>(?<classroom>.*?)<br><font[^>]*?>(?<method>.*?)<\\/font><br>(?<weeks>.*?)<br>选课状态:(?<status>.*?)<br><font[^>]*?>(?<special>.*?)<\\/font><br>/'
 
 	);
@@ -65,8 +65,8 @@ class DebugController //extends Controller
 		preg_match_all($this->pattern['0'], $text, $subject);
 		$lesson = array();
 		foreach ($subject[0] as $key => $value) {
-			$week = $key%7+1;
-			$time = $key/7;
+			$week = ($key+1)%7;
+			$time = $key/7+1;
 			//分析数据
 			$num  = preg_match_all($this->pattern['1'], $value, $message);
 			if ($message['classid']['0']) {

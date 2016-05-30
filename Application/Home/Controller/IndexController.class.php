@@ -9,20 +9,20 @@ class IndexController extends Controller {
     	unset($_POST['id']);
     	$pattern = '/^201[2-5][0-9]{6}$/';
     	if(preg_match($pattern,$id)) {
-    		$M = M('Lesson');
-       		$data = $M->where('studentid='.$id)->select();
-       		if(!$data) {
-       			$data = $this->getData($id);
+    		  $M = M('Lesson');
+       	  $data = $M->where('studentid='.$id)->select();
+       	  if(!$data) {
+       			  $data = $this->getData($id);
        		}
-       		$message;
-       		foreach ($data  as $value) {
-       			$n = (int)$value['week']+7*(int)$value['time'];
-       			$message[$n][] = $value;
-       		}
-       		$message['studentid'] = $id;  		
-       		$this->assign('data',$message);
-       	}
-		$this->display('index');      	
+       	  $message;
+       	  foreach ($data  as $value) {
+       			  $n = (int)$value['week']+7*(int)$value['time'];
+       			  $message[$n][] = $value;
+        	}
+       	  $message['studentid'] = $id;  		
+       	  $this->assign('data',$message);
+       	  }
+		  $this->display('index');      	
 
     }
     
